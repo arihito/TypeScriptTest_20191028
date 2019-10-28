@@ -1,6 +1,15 @@
-class Address {
+interface AddressFormat {
+  zip: string
+  city: string
+  prefecture: string
+}
 
-  private address: any;
+class Address implements AddressFormat {
+  // 設定はできないが読み込みだけ可能
+  readonly address: any
+  public zip: any
+  public city: any
+  public prefecture: any
 
   // 引数にプロパティの定義が可能、アンスコはプライベートを表す
   public constructor(private _zip: string) {
