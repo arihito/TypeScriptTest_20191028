@@ -20,6 +20,9 @@ class Address {
   get getZip(): string {
     return this._zip
   }
+  set setZip(value: string) {
+    this._zip = value
+  }
   public getAddress(): string {
     const place = this.address[this._zip]
     return `${place.city} ${place.prefecture}`
@@ -28,4 +31,6 @@ class Address {
 
 let ads = new Address("166-0003")
 console.log(ads.getZip)
+console.log(ads.getAddress())
+ads.setZip = "100-0000"
 console.log(ads.getAddress())

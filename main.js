@@ -23,6 +23,13 @@ var Address = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Address.prototype, "setZip", {
+        set: function (value) {
+            this._zip = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Address.prototype.getAddress = function () {
         var place = this.address[this._zip];
         return place.city + " " + place.prefecture;
@@ -31,4 +38,6 @@ var Address = /** @class */ (function () {
 }());
 var ads = new Address("166-0003");
 console.log(ads.getZip);
+console.log(ads.getAddress());
+ads.setZip = "100-0000";
 console.log(ads.getAddress());
