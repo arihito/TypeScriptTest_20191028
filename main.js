@@ -1,42 +1,43 @@
 "use strict";
-var Address = /** @class */ (function () {
+class Address {
     // 引数にプロパティの定義が可能、アンスコはプライベートを表す
-    function Address(_zip) {
+    constructor(_zip) {
         this._zip = _zip;
-        this.address =
-            {
-                "166-0003": {
-                    "city": "東京都",
-                    "prefecture": "杉並区"
-                },
-                "100-0000": {
-                    "city": "東京都",
-                    "prefecture": "港区"
+        const zipSync = new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open("get", "zip.json", true);
+            xhr.onload = () => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    resolve(xhr.response);
+                }
+                else {
+                    reject(new Error(xhr.statusText));
                 }
             };
+            xhr.send(null);
+        })
+            // 非同期で受け取った処理を実行
+            .then((value) => {
+            this.address = value;
+        })
+            // 非同期通信が失敗した場合の処理
+            .catch((reason) => {
+            console.log(reason);
+        });
     }
-    Object.defineProperty(Address.prototype, "getZip", {
-        // getterを使用するとプロパティとして呼び出せる
-        get: function () {
-            return this._zip;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Address.prototype, "setZip", {
-        set: function (value) {
-            this._zip = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Address.prototype.getAddress = function () {
-        var place = this.address[this._zip];
-        return place.city + " " + place.prefecture;
-    };
-    return Address;
-}());
-var ads = new Address("166-0003");
+    // getterを使用するとプロパティとして呼び出せる
+    get getZip() {
+        return this._zip;
+    }
+    set setZip(value) {
+        this._zip = value;
+    }
+    getAddress() {
+        const place = this.address[this._zip];
+        return `${place.city} ${place.prefecture}`;
+    }
+}
+let ads = new Address("166-0003");
 console.log(ads.getZip);
 console.log(ads.getAddress());
 ads.setZip = "100-0000";
